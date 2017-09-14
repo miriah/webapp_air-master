@@ -1,0 +1,161 @@
+ * {
+  font-size: 100%;
+  font-family: 'MuseoSans_500' ;
+}
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+.nav ul {
+  list-style: none;
+  background-color: #a31818;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+.nav li {
+  font-family: 'MuseoSans_500', sans-serif;
+  font-size: 1.2em;
+  line-height: 40px;
+  height: 40px;
+  border-bottom: 1px solid #888;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: .3s background-color;
+}
+
+.nav a:hover {
+  background-color: #ffb9b9;
+}
+
+.nav a.active {
+  background-color: #fff;
+  color: #444;
+  cursor: default;
+}
+
+@media screen and (min-width: 600px) {
+  .nav li {
+    width: 120px;
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4em;
+  }
+
+  .nav li {
+    display: inline-block;
+    margin-right: -4px;
+  }
+
+  .nav li {
+    font-family: 'MuseoSans_500';
+    font-size: 1.2em;
+    line-height: 40px;
+    height: 40px;
+    border-bottom: 1px solid #888;
+    display: inline-block;
+    margin-right: -4px;
+  }
+  nav a:hover {
+    background-color: #005f5f;
+  }
+}
+@media screen and (min-width: 600px) {
+  .nav li {
+    width: 120px;
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4em;
+  }
+}
+a.active {
+  background-color: #fff;
+  color: #444;
+}
+nav a {
+  text-decoration: none;
+  color: #fff;
+  transition: .3s background-color;
+}
+
+.button{
+  display: flex;
+  justify-content: space-around;
+  border-radius: 100px;
+  height: 125px;
+  width: 300px;
+  background: #a31818;
+  border: 2px solid rgba(33, 68, 72, 0.59);
+}
+
+.flexcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: space-around;
+  position: relative;
+  padding-top: 20px;
+}
+
+.flexcontainerleft {
+  display: flex;
+  flex-flow: column;
+  width: 60%;
+  position: relative;
+  justify-content: space-between;
+  justify-content: space-around;
+  height: 600px;
+}
+
+#map {
+  height: 515px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 35%;
+  height: 600px;
+  background-color: white; /*ed3821*/
+  border: 3px solid #6d0202;
+  border-radius: 5px;
+}
+
+#graphcontainers{
+  background-color: white;
+  position: relative;
+  min-height: 150px;
+  border-radius: 15px;
+}
+
+.timeline{
+  height: 200;
+  border: 3px solid #6d0202;
+  border-radius: 5px;
+}
+
+.txt {
+  font-size: 14px;
+  line-height: 1.45;
+}
+.line-style {
+  fill: none;
+  stroke-width: 1.5;
+  shape-rendering: crispEdges;
+}
+a:link {
+    text-decoration: none;
+    font-size: 20;
+    font-style: oblique;
+    font-family: 'MuseoSans_500';
+    color: #fff;
+}
