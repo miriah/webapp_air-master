@@ -9,6 +9,7 @@ var margin = {
   bottom: 30,
   left: 40
 };
+
 var width = 700 - margin.left - margin.right;
 var height = 150 - margin.top - margin.bottom;
 // load a tile layer
@@ -24,8 +25,8 @@ window.onload = window.onresize = function () {
   timelineBounds = d3.select('.timeline').node().getBoundingClientRect();// makes sure svg is alwasy same size as div
   setUp();
   // TODO: call the render function(s)
-  //  L.imageOverlay('pixels.png', [[40.795925, -111.998256], [40.693031, -111.827190]], {
-	// 		opacity: 0.3,
+  //  L.imageOverlay('overlay1.png', [[40.795925, -111.998256], [40.693031, -111.827190]], {
+	// 		opacity: 0.5,
 	// 		interactive: true,
 	// 	}).addTo(map);
 }
@@ -60,9 +61,9 @@ function findDistance(r, mark){
         }
       }
     }
-    console.log(closestsensor);
+    //console.log(closestsensor);
   });
-  console.log(sensorobject, closestsensor);
+  //console.log(sensorobject, closestsensor);
   return sensorobject;
 }
 
@@ -82,7 +83,7 @@ function findCorners(ltlg){
   cornerarray.push(lg2);
 
   return cornerarray;
-  console.log(cornerarray);
+  //console.log(cornerarray);
 }
 
 function findNearestSensor(cornerarray, mark, callback){
@@ -95,11 +96,11 @@ function findNearestSensor(cornerarray, mark, callback){
       q: "SELECT MEAN(\"pm2.5 (ug/m^3)\") from airQuality where time >='2017-09-06T00:00:00Z' group by ID, Latitude, Longitude limit 100"
     },
     success: function (response){
-      console.log(response);
+      //console.log(response);
       response = response.results[0].series.map(function (d) {
         return d.tags; //pulls out tag to clean up data for distance finding
       });
-      console.log(response);
+      //console.log(response);
 
       //closest needs to be sensor info, not distance to closest sensor
       var closest = findDistance(response, mark); //returns closest sensor using distance equation
@@ -170,12 +171,12 @@ function drawChart (){
   labels = labelEnter.merge(labels); //combines new path/data pairs with previous, unremoved data
 
   //set up the legend later
-  labels.attr("x", margin.left + width/2)
-  .attr("y", margin.top)
-  .attr("text-decoration")
-  .attr("text-anchor", "middle")
-  .attr("font-family", "verdana")
-  .text(d => d.id);
+  // labels.attr("x", margin.left + width/2)
+  // .attr("y", margin.top)
+  // .attr("text-decoration")
+  // .attr("text-anchor", "middle")
+  // .attr("font-family", "verdana")
+  // .text(d => d.id);
 
 
 }
@@ -248,7 +249,7 @@ function getDateTime(){
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate()-1);
   yesterday = yesterday.toISOString().substr(0, 19) +"Z";
-  console.log(today, yesterday);
+  //console.log(today, yesterday);
 
   var twodays = "2017-09-03T22:58:27Z"
   return [yesterday, twodays];
@@ -294,13 +295,13 @@ Promise.all([lonPromise, latPromise, pmValPromise]) //Promise.all waits for all 
 
   console.log(results);
 
-  var idw = L.idwLayer(results,{
-        opacity: 0.3,
-        maxZoom: 18,
-        cellSize: 10,
-        exp: 3,
-        max: 15.0
-    }).addTo(map);
+  // var idw = L.idwLayer(results,{
+  //       opacity: 0.3,
+  //       maxZoom: 18,
+  //       cellSize: 10,
+  //       exp: 3,
+  //       max: 15.0
+  //   }).addTo(map);
 
 
   /*
@@ -312,12 +313,6 @@ Promise.all([lonPromise, latPromise, pmValPromise]) //Promise.all waits for all 
 });
 
 
-// function dictionaryShite(dictionary){
-//   for (var key in dictionary) {
-//     if (dictionary.hasOwnProperty(key))
-//     return dictionary[key];
-//   }
-// }
 
 function getData(strng){
   return new Promise(function (resolve, reject) { //use a promise as a place holder until a promise is fulfilled (resolve)
@@ -327,3 +322,23 @@ function getData(strng){
     });
   });
 }
+
+document.getElementById("sensorSwitch").addEventListener("click", function(){
+  $.ajax({
+    url: 'https://air.eng.utah.edu:8086/query',
+    data: {
+      db: 'defaultdb',
+      q: "SELECT MEAN(\"pm2.5 (ug/m^3)\") from airQuality where time >='2017-09-06T00:00:00Z'"
+    },
+    success: function (response){
+      console.log(response);
+
+});
+  // markr = new L.marker(e.latlng)
+  // .addTo(map)
+
+  // if (item["Latitude"] !== null && item["Longitude"] !== null) {
+  //   var marker = new google.maps.Marker({
+  //     position: {lat: parseFloat(item["Latitude"]), lng: parseFloat(item["Longitude"])},
+  //     map: map
+  //   });
