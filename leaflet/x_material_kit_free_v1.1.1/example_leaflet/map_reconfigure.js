@@ -257,10 +257,12 @@ function getDateTime(){
 
 map.on('click', onMapClick);
 
+/* this is for parsing through Amir's data
+and then building a heat map from the data */
 
-lonPromise = getData("/data/XGPS1.csv");
-latPromise = getData("/data/XGPS2.csv");
-pmValPromise = getData("/data/YPRED.csv");
+lonPromise = getData("sample-data/XGPS1.csv");
+latPromise = getData("sample-data/XGPS2.csv");
+pmValPromise = getData("sample-data/YPRED.csv");
 
 lvArray = []; //locations + values array
 Promise.all([lonPromise, latPromise, pmValPromise]) //Promise.all waits for all the other promises to finish
@@ -293,7 +295,7 @@ Promise.all([lonPromise, latPromise, pmValPromise]) //Promise.all waits for all 
     });
   });
 
-  //console.log(results);
+  console.log(results);
 
   // var idw = L.idwLayer(results,{
   //       opacity: 0.3,
@@ -323,23 +325,45 @@ function getData(strng){
   });
 }
 
-// document.getElementById("sensorSwitch").addEventListener("click", function(){
-//   $.ajax({
-//     url: 'https://air.eng.utah.edu:8086/query',
-//     data: {
-//       db: 'defaultdb',
-//       q: "SELECT MEAN(\"pm2.5 (ug/m^3)\") from airQuality where time >='2017-09-06T00:00:00Z'"
-//     },
-//     success: function (response){
-//       console.log(response);
-//
-//     }});
-//   }
-  // markr = new L.marker(e.latlng)
-  // .addTo(map)
+document.getElementById("sensorSwitch").addEventListener("click", function(){
+  $.ajax({
+    url: 'https://air.eng.utah.edu:8086/query',
+    data: {
+      db: 'defaultdb',
+      q: "SELECT MEAN(\"pm2.5 (ug/m^3)\") from airQuality where time >='2017-09-06T00:00:00Z' group by ID, Latitude, Longitude limit 200"
+    },
+    success: function (response){
+      response = response.results[0].series.map(function (d) {
+        return d.tags; //pulls out tag to clean up data for distance finding
+      });
+      console.log(response);
+      sensorLayer(response);
 
-  // if (item["Latitude"] !== null && item["Longitude"] !== null) {
-  //   var marker = new google.maps.Marker({
-  //     position: {lat: parseFloat(item["Latitude"]), lng: parseFloat(item["Longitude"])},
-  //     map: map
-  //   });
+    },
+    error: function () {
+      console.warn(arguments);
+    }
+  });
+});
+
+/*
+future work: change button so that it is a layer that turns on and off on click
+rather than having to reload every single time
+example : var sensorslayer = L.tileLayer() etc.
+*/
+function sensorLayer(response){
+  response.forEach(function (item) {
+    if (item["Latitude"] !== null && item["Longitude"] !== null) {
+      //  window.setTimeout(() => {
+      var mark = new L.marker(
+          L.latLng(
+            parseFloat(item["Latitude"]),
+            parseFloat(item["Longitude"])
+          )
+        )
+        .addTo(map);
+        //}, 100);
+      }
+    });
+    console.log(response);
+  }
